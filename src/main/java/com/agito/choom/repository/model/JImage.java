@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
 @Table(name = "image")
@@ -24,5 +25,6 @@ public class JImage {
   private String email;
 
   @Column(nullable = false)
+  @CreationTimestamp
   private Instant createdAt;
 }
