@@ -55,4 +55,8 @@ public class ImageService {
     multipartFile.transferTo(tempFile);
     return tempFile;
   }
+
+  public List<Image> findAll() {
+    return mapper.toModel(repository.findAll());
+  }
 }
