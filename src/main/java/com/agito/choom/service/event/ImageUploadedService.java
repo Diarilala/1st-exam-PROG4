@@ -5,29 +5,29 @@ import com.agito.choom.mail.Email;
 import com.agito.choom.mail.Mailer;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
+import java.util.List;
+import java.util.function.Consumer;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.function.Consumer;
-
 @Service
 @AllArgsConstructor
 public class ImageUploadedService implements Consumer<ImageUploaded> {
-    private final Mailer mailer;
+  private final Mailer mailer;
 
-    @Override
-    @SneakyThrows
-    public void accept(ImageUploaded imageUploaded) {
-        sendConfirmationEmailToUser(imageUploaded);
-    }
+  @Override
+  @SneakyThrows
+  public void accept(ImageUploaded imageUploaded) {
+    sendConfirmationEmailToUser(imageUploaded);
+  }
 
-    public void sendConfirmationEmailToUser(ImageUploaded imageUploaded) throws AddressException {
-        var image = imageUploaded.getImage().filename();
-        var to = imageUploaded.getImage().email();
-        var subject = "Confirmation Email";
-        var htmlBody = """
+  public void sendConfirmationEmailToUser(ImageUploaded imageUploaded) throws AddressException {
+    var image = imageUploaded.getImage().filename();
+    var to = imageUploaded.getImage().email();
+    var subject = "Confirmation Email";
+    var htmlBody =
+        """
                 <html>
   <body>
     <p>Dear Ms or Mr,</p>
@@ -40,11 +40,10 @@ public class ImageUploadedService implements Consumer<ImageUploaded> {
     <p>The Team</p>
   </body>
 </html>
-                """
-                .formatted(image);
-        var InternetAddress = new InternetAddress(to);
-        var email = new Email(InternetAddress, List.of(), List.of(), subject, htmlBody, List.of());
-        mailer.accept(email);
-    }
-
+"""
+            .formatted(image);
+    var InternetAddress = new InternetAddress(to);
+    var email = new Email(InternetAddress, List.of(), List.of(), subject, htmlBody, List.of());
+    mailer.accept(email);
+  }
 }
